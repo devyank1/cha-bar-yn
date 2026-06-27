@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · Chá de Casa Nova</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="admin-login" id="login-screen">
+    <div class="login-card">
+      <h1>Painel Admin</h1>
+      <p>Chá de Casa Nova · Yan & Nicolle</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Entrar</button>
+        <p class="login-error" id="login-error">Senha incorreta.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel">
+    <div class="admin-header">
+      <h1>🏠 Admin — Chá de Casa Nova</h1>
+      <button class="btn btn-outline" id="btn-sair" style="color:#fff;border-color:rgba(255,255,255,.5)">Sair</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- Evento -->
+      <div class="admin-section">
+        <h2>📅 Dados do Evento</h2>
+        <form id="form-evento">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Hora do evento</label>
+              <input type="time" id="ev-hora">
+            </div>
+            <div class="form-group">
+              <label>Nome do local</label>
+              <input type="text" id="ev-local" placeholder="Ex: Espaço Jardim">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Endereço completo (link do mapa)</label>
+            <input type="text" id="ev-endereco" placeholder="Rua X, nº Y, Bairro, Cidade">
+          </div>
+          <div class="form-group">
+            <label>Frase do Hero</label>
+            <textarea id="ev-frase" rows="2" placeholder="Venham celebrar conosco!"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Mensagem do Rodapé</label>
+            <textarea id="ev-footer" rows="2" placeholder="Com amor, Yan e Nicolle ♥"></textarea>
+          </div>
+          <div class="admin-form-actions">
+            <button type="submit" class="btn btn-primary">💾 Salvar evento</button>
+          </div>
+          <div class="alert alert-success" id="alert-evento">Dados do evento salvos!</div>
+          <div class="alert alert-error" id="alert-evento-err">Erro ao salvar.</div>
+        </form>
+      </div>
+
+      <!-- Itens -->
+      <div class="admin-section">
+        <h2>🎁 Itens da Lista</h2>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nome</th><th>Categoria</th><th>Cor</th><th>Obs</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="items-tbody">
+            <tr><td colspan="5" style="color:var(--text-muted);font-style:italic">Carregando...</td></tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin:2rem 0 1rem;color:var(--olive)" id="form-item-title">➕ Adicionar Item</h3>
+        <form id="form-item">
+          <input type="hidden" id="item-key">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome do item *</label>
+              <input type="text" id="item-nome" required placeholder="Ex: Panela de pressão">
+            </div>
+            <div class="form-group">
+              <label>Categoria</label>
+              <select id="item-categoria">
+                <option value="Cozinha">Cozinha</option>
+                <option value="Banheiro">Banheiro</option>
+                <option value="Sala">Sala</option>
+                <option value="Quarto">Quarto</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cor preferida (nome)</label>
+              <input type="text" id="item-cor-nome" placeholder="Ex: Preta, Branca, Inox">
+            </div>
+            <div class="form-group">
+              <label>Cor (visual)</label>
+              <input type="color" id="item-cor" value="#555555" style="height:46px;padding:4px">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Observação (opcional)</label>
+            <input type="text" id="item-obs" placeholder="Ex: 5L ou maior">
+          </div>
+          <div class="admin-form-actions">
+            <button type="submit" class="btn btn-primary" id="btn-salvar-item">➕ Adicionar</button>
+            <button type="button" class="btn btn-outline" id="btn-cancelar-edit" style="display:none">Cancelar</button>
+          </div>
+          <div class="alert alert-success" id="alert-item">Item salvo!</div>
+          <div class="alert alert-error" id="alert-item-err">Erro ao salvar item.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
