@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('admin-panel').style.display  = 'block';
       initAdmin();
     } else {
-      const err = document.getElementById('login-error');
-      err.style.display = 'block';
-      setTimeout(() => { err.style.display = 'none'; }, 3000);
+      showAlert('login-error');
     }
   });
 
@@ -48,6 +46,8 @@ function loadAdminEvento() {
     if (ev.endereco)        document.getElementById('ev-endereco').value = ev.endereco;
     if (ev.frase_hero)      document.getElementById('ev-frase').value   = ev.frase_hero;
     if (ev.mensagem_footer) document.getElementById('ev-footer').value  = ev.mensagem_footer;
+  }).catch(() => {
+    // silently fail — event form just stays blank
   });
 }
 
@@ -80,22 +80,65 @@ function loadAdminItens() {
 
     tbody.innerHTML = '';
     Object.entries(data).forEach(([key, item]) => {
-      const swatch = item.cor
-        ? `<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${item.cor};border:1px solid #ccc;vertical-align:middle;margin-right:4px"></span>`
-        : '';
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${item.nome}</td>
-        <td>${item.categoria || '—'}</td>
-        <td><div class="table-cor">${swatch}${item.cor_nome || ''}</div></td>
-        <td style="font-size:.8rem;color:var(--text-muted)">${item.observacao || '—'}</td>
-        <td>
-          <div class="table-actions">
-            <button class="btn-edit"   data-key="${key}">Editar</button>
-            <button class="btn-delete" data-key="${key}">Excluir</button>
-          </div>
-        </td>
-      `;
+
+      // Nome cell
+      const tdNome = document.createElement('td');
+      tdNome.textContent = item.nome || '';
+
+      // Categoria cell
+      const tdCat = document.createElement('td');
+      tdCat.textContent = item.categoria || '—';
+
+      // Cor cell (validate hex before inline style)
+      const tdCor = document.createElement('td');
+      const corDiv = document.createElement('div');
+      corDiv.className = 'table-cor';
+      if (item.cor && /^#[0-9a-fA-F]{3,6}$/.test(item.cor)) {
+        const swatch = document.createElement('span');
+        swatch.style.display = 'inline-block';
+        swatch.style.width = '14px';
+        swatch.style.height = '14px';
+        swatch.style.borderRadius = '50%';
+        swatch.style.background = item.cor;
+        swatch.style.border = '1px solid #ccc';
+        swatch.style.verticalAlign = 'middle';
+        swatch.style.marginRight = '4px';
+        corDiv.appendChild(swatch);
+      }
+      corDiv.appendChild(document.createTextNode(item.cor_nome || ''));
+      tdCor.appendChild(corDiv);
+
+      // Obs cell
+      const tdObs = document.createElement('td');
+      tdObs.style.fontSize = '.8rem';
+      tdObs.style.color = 'var(--text-muted)';
+      tdObs.textContent = item.observacao || '—';
+
+      // Actions cell
+      const tdActions = document.createElement('td');
+      const actDiv = document.createElement('div');
+      actDiv.className = 'table-actions';
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'btn-edit';
+      editBtn.textContent = 'Editar';
+      editBtn.dataset.key = key;
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'btn-delete';
+      delBtn.textContent = 'Excluir';
+      delBtn.dataset.key = key;
+
+      actDiv.appendChild(editBtn);
+      actDiv.appendChild(delBtn);
+      tdActions.appendChild(actDiv);
+
+      tr.appendChild(tdNome);
+      tr.appendChild(tdCat);
+      tr.appendChild(tdCor);
+      tr.appendChild(tdObs);
+      tr.appendChild(tdActions);
       tbody.appendChild(tr);
     });
 
@@ -105,6 +148,9 @@ function loadAdminItens() {
     tbody.querySelectorAll('.btn-delete').forEach(btn =>
       btn.addEventListener('click', () => deleteItem(btn.dataset.key))
     );
+  }).catch(() => {
+    document.getElementById('items-tbody').innerHTML =
+      '<tr><td colspan="5" style="color:#c0392b;font-style:italic">Erro ao carregar itens. Verifique a conexão.</td></tr>';
   });
 }
 
