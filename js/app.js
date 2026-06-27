@@ -67,6 +67,8 @@ function loadEvento() {
 
     if (ev.mensagem_footer)
       document.getElementById('footer-message').textContent = ev.mensagem_footer;
+  }).catch(() => {
+    // Firebase read failed — event section keeps placeholder text
   });
 }
 
@@ -160,12 +162,23 @@ function openShopModal(itemNome) {
 
   document.getElementById('modal-item-nome').textContent = itemNome;
   document.getElementById('modal-body').innerHTML = '<div class="spinner"></div>';
-  document.getElementById('modal-stores').innerHTML = `
-    <a href="https://www.magazineluiza.com.br/busca/${q}" target="_blank" rel="noopener" class="store-btn">Magazine Luiza</a>
-    <a href="https://www.amazon.com.br/s?k=${q}" target="_blank" rel="noopener" class="store-btn">Amazon</a>
-    <a href="https://www.americanas.com.br/busca/${q}" target="_blank" rel="noopener" class="store-btn">Americanas</a>
-    <a href="https://shopee.com.br/search?keyword=${q}" target="_blank" rel="noopener" class="store-btn">Shopee</a>
-  `;
+  const storesContainer = document.getElementById('modal-stores');
+  storesContainer.innerHTML = '';
+  const stores = [
+    { label: 'Magazine Luiza', url: `https://www.magazineluiza.com.br/busca/${q}` },
+    { label: 'Amazon',         url: `https://www.amazon.com.br/s?k=${q}` },
+    { label: 'Americanas',     url: `https://www.americanas.com.br/busca/${q}` },
+    { label: 'Shopee',         url: `https://shopee.com.br/search?keyword=${q}` }
+  ];
+  stores.forEach(s => {
+    const a = document.createElement('a');
+    a.href = s.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'store-btn';
+    a.textContent = s.label;
+    storesContainer.appendChild(a);
+  });
 
   backdrop.classList.add('open');
   document.body.style.overflow = 'hidden';
