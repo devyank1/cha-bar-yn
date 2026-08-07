@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "evento": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "itens": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "reservas": {
+      ".read": true,
+      "$id": {
+        ".write": "!data.exists() || auth != null"
+      }
+    }
+  }
+}

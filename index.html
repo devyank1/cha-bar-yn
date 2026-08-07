@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; connect-src https://*.firebaseio.com https://*.googleapis.com https://api.mercadolibre.com; img-src 'self' https://http2.mlstatic.com https://mlstatic.com data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://*.firebaseio.com; connect-src https://*.firebaseio.com wss://*.firebaseio.com https://*.googleapis.com https://api.mercadolibre.com; img-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-src https://*.firebaseio.com">
   <title>Chá de Casa Nova · Yan & Nicolle</title>
   <link rel="stylesheet" href="css/style.css">
   <meta name="description" content="Chá de Casa Nova de Yan & Nicolle — 14 de novembro de 2026">
@@ -72,16 +72,19 @@
         <div class="evento-card">
           <div class="evento-icon">🕐</div>
           <div class="evento-label">Hora</div>
-          <div class="evento-value" id="evento-hora"><span class="evento-placeholder">Em breve</span></div>
+          <div class="evento-value" id="evento-hora"><span class="evento-placeholder">16:00H</span></div>
         </div>
         <div class="evento-card">
           <div class="evento-icon">📍</div>
           <div class="evento-label">Local</div>
-          <div class="evento-value" id="evento-local"><span class="evento-placeholder">Em breve</span></div>
-          <a href="#" id="mapa-link" class="mapa-link" target="_blank" rel="noopener" style="display:none">
-            🗺️ Ver no mapa
-          </a>
+          <div class="evento-value" id="evento-local"><span class="evento-placeholder">Condomínio Morada dos Ipês</span></div>
+          <a href="#" id="mapa-link" class="mapa-link" target="_blank" rel="noopener" style="display:none">🗺️ Ver endereço</a>
         </div>
+        <a href="https://www.google.com/maps/place/Condom%C3%ADnio+Morada+Dos+Ip%C3%AAs/@-20.7661275,-49.419528,17z/data=!4m6!3m5!1s0x94bdad30044b5163:0x567b7eed3eb91607!8m2!3d-20.765167!4d-49.420542!16s%2Fg%2F11qktpb8b0?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="evento-card evento-card-link">
+          <div class="evento-icon">🗺️</div>
+          <div class="evento-label">Mapa</div>
+          <div class="evento-value">Ver localização</div>
+        </a>
       </div>
     </div>
   </section>
@@ -113,6 +116,8 @@
         <h3 class="modal-title" id="modal-item-nome"></h3>
         <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
       </div>
+      <div class="modal-cores" id="modal-cores"></div>
+      <p class="modal-stores-hint">Selecione uma loja, ou fique à vontade para comprar em outro local.</p>
       <div class="modal-stores" id="modal-stores"></div>
       <div id="modal-body"></div>
     </div>
